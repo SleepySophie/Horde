@@ -159,7 +159,14 @@ function SWEP:Reload()
 			return
 		end
 
-		self.ReviveProgress = self.ReviveProgress + self.ReviveSpeed * ( CurTime() - self.LastReviveTime )
+		local reviveSpeed = self.ReviveSpeed
+		local class = self:GetOwner():Horde_GetCurrentSubclass()
+
+		if class == "Medic" or class == "Hatcher" then
+			reviveSpeed = reviveSpeed * 2
+		end
+
+		self.ReviveProgress = self.ReviveProgress + reviveSpeed * ( CurTime() - self.LastReviveTime )
 		self.LastReviveTime = CurTime()
 		self:EmitSound( "items/medcharge4.wav" )
 		return
